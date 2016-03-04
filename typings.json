@@ -1,0 +1,22 @@
+{
+  "name": "typescript-express-seed",
+  "dependecies": {},
+  "ambientDependencies": {
+    "bluebird": "github:DefinitelyTyped/DefinitelyTyped/bluebird/bluebird.d.ts#e5a27ea95e47b95333784f1f0d590127b4e39a89",
+    "body-parser": "github:DefinitelyTyped/DefinitelyTyped/body-parser/body-parser.d.ts#e5a27ea95e47b95333784f1f0d590127b4e39a89",
+    "cors": "github:DefinitelyTyped/DefinitelyTyped/cors/cors.d.ts#11322524f8db9cdb921427cad84cd22fe2d4f965",
+    "es6-node": "file:typings_manual/es6-node.d.ts",
+    "express": "github:DefinitelyTyped/DefinitelyTyped/express/express.d.ts#11322524f8db9cdb921427cad84cd22fe2d4f965",
+    "express-jwt": "github:DefinitelyTyped/DefinitelyTyped/express-jwt/express-jwt.d.ts#2cb8fd4638231efd24929f99d56372bdb57d337b",
+    "express-unless": "github:DefinitelyTyped/DefinitelyTyped/express-unless/express-unless.d.ts#b80f7caacfe2430b9e34d7fba1d262205c233ce9",
+    "jsonwebtoken": "github:DefinitelyTyped/DefinitelyTyped/jsonwebtoken/jsonwebtoken.d.ts#8d9e2d7993a2ac7d38427bd08bee641251f2dfd4",
+    "mime": "github:DefinitelyTyped/DefinitelyTyped/mime/mime.d.ts#11322524f8db9cdb921427cad84cd22fe2d4f965",
+    "moment": "github:DefinitelyTyped/DefinitelyTyped/moment/moment.d.ts#7136728255d96038795d93c3e4b43c3c7de8ac1e",
+    "moment-node": "github:DefinitelyTyped/DefinitelyTyped/moment/moment-node.d.ts#7136728255d96038795d93c3e4b43c3c7de8ac1e",
+    "moment-timezone": "github:DefinitelyTyped/DefinitelyTyped/moment-timezone/moment-timezone.d.ts#7136728255d96038795d93c3e4b43c3c7de8ac1e",
+    "mysql": "github:DefinitelyTyped/DefinitelyTyped/mysql/mysql.d.ts#8ac2edf817ab77a00f0d2a1a53bb46eb2a466067",
+    "node": "github:DefinitelyTyped/DefinitelyTyped/node/node.d.ts#0d66537e353802f996a3f67ca1b711f63835f9e7",
+    "serve-static": "github:DefinitelyTyped/DefinitelyTyped/serve-static/serve-static.d.ts#0fa4e9e61385646ea6a4cba2aef357353d2ce77f",
+    "source-map-support": "github:DefinitelyTyped/DefinitelyTyped/source-map-support/source-map-support.d.ts#f8af639bf29b2b00e5d27ce93c0f046564b8525c"
+  }
+}

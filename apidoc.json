@@ -1,0 +1,13 @@
+{
+  "name": "Typescript Express Seed",
+  "version": "1.0.0",
+  "description": "This project is a Seed to ExpressJS/NodeJS in Typescript",
+  "title": "Seed for Developers",
+  "url" : "http://localhost:3000",
+  "sampleUrl": "http://localhost:3000",
+  "template": {
+    "forceLanguage": "en",
+    "withCompare": true,
+    "withGenerator": true
+  }
+}
