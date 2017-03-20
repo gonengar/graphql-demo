@@ -1,19 +1,17 @@
+import { Injectable } from '@angular/core';
+
 import { Config } from './inc/config';
 import { app } from './inc/app';
 
 app.locals.environment = 'dev';
 app.locals.config = Config.getConfig();
 
-import * as fs from 'fs';
 import * as bodyParser from 'body-parser';
 import * as cors from 'cors';
 
-import * as expressJWT from 'express-jwt';
+import { generateLetter } from './utils/letter-generator';
+import { DB } from './db/db';
 
-import * as FuncApp from './inc/funcApp';
-import * as funcgen from './inc/funcgen';
-
-// If we are at development environment, interprets sourcemaps...
 if (app.locals.environment === 'dev') {
 	require('source-map-support').install();
 }
@@ -35,137 +33,8 @@ app.use(cors());
  *
  * Full module description: https://github.com/expressjs/body-parser/blob/master/README.md
  */
-app.use(bodyParser.urlencoded({ extended: true, limit: '10mb' }));
-app.use(bodyParser.json({ limit: '10mb' }));
-
-
-let publicEndPoints = [/getAccessToken/g];
-app.use(['/v*'],
-	expressJWT({ secret: app.locals.config.tokenSecret }).unless({ path: publicEndPoints })
-);
-
-
-/**
- * Verifying Host vs Environment.
- *
- * Check the current host is allowed at API
- *
- */
-app.use((req, res, next) => {
-	if (Config.isValidHost(req.hostname)) {
-		FuncApp.invalidHost(res);
-	} else {
-		next();
-	}
-});
-
-/**
- * Verifying user Authentication.
- */
-app.use((req: FuncApp.IAppRequest, res, next) => {
-	// Apply here user validation
-	// All user's fields sent on token's payload will be avaible at re.user
-	next();
-});
-
-/**
- * Create API versions route.
- *
- * Read directory /api/ and create route to all API versions
- *
- */
-fs.readdirSync('./api').forEach((dir) => {
-	let vRoute = require('./api/' + dir + '/router');
-	app.use('/' + dir, vRoute);
-});
-
-/**
- * @apiIgnore
- * @api {get} /apiVersions
- * @apiDescription Returns a list of API avaiable versions
- * @apiGroup API Information
- * @apiPermission Public
- * @apiSuccess (200) {JSON} List of avaiable API versions
- * @apiSuccessExample {JSON} Success-Response:
- *     HTTP/1.1 200 OK
- *     {
- *       "code": 200,
- *       "message_code": "OK",
- *       "message": "",
- *       "data": [
- *         "v1.0"
- *       ]
- *     }
- */
-app.get('/apiVersions', (req: FuncApp.IAppRequest, res) => {
-	let apiArr = [];
-	fs.readdirSync('./api').forEach((dir) => {
-		apiArr.push(dir);
-	});
-	FuncApp.sendDataJSON(200, 200, 'OK', '', apiArr, res);
-});
-
-/**
- * @apiIgnore
- * @api {get} /lastApiVersion
- * @apiDescription Returns the last version of API
- * @apiGroup API Information
- * @apiPermission Public
- * @apiSuccess (200) {JSON} Single item list with last version of API
- * @apiSuccessExample {JSON} Success-Response:
- *     HTTP/1.1 200 OK
- *     {
- *       "code": 200,
- *       "message_code": "OK",
- *       "message": "",
- *       "data": [
- *         "v1.0"
- *       ]
- *     }
- *
- */
-app.get('/lastApiVersion/', (req: FuncApp.IAppRequest, res) => {
-	let api = '';
-	fs.readdirSync('./api').forEach((dir) => {
-		api = dir;
-	});
-	let apiArr = [];
-	apiArr.push(api);
-	FuncApp.sendDataJSON(200, 200, 'OK', '', apiArr, res);
-});
-
-/**
- * Handling server error.
- *
- * Fired when tha called endpoint couldn't be found on API with 'message_code':'ENDPOINT_NOT_FOUND'
- *
- */
-app.use((req: FuncApp.IAppRequest, res, next) => {
-	FuncApp.sendNoDataJSON(404, 404, 'ENDPOINT_NOT_FOUND',
-	               'The API end point you are trying to reach does not exist or has been moved. Please ckeck the documentation to find what you are looking for.', res);
-});
-
-/**
- * Handling server error 500.
- *
- * Fired when any endpoint trows an exception with 'message_code': 'INTERNAL_SERVER_ERROR'
- *
- */
-app.use((err: any, req: FuncApp.IAppRequest, res, next) => {
-	if (err.code === 'credentials_required') {
-		FuncApp.unauthorizedAccess(res);
-		return;
-	}
-	if (err.code === 'invalid_token') {
-		FuncApp.invalidToken(res);
-		return;
-	}
-	if(funcgen.isset(() => err.inner.name) && (err.inner.name === 'JsonWebTokenError')) {
-		FuncApp.unauthorizedAccess(res);
-		return;
-	}
-	FuncApp.sendErrorJSON(500, 500, 'ERROR', '', funcgen.getErrorTratament(err), res);
-});
+app.use(bodyParser.urlencoded({extended: true, limit: '10mb'}));
+app.use(bodyParser.json({limit: '10mb'}));
 
 /**
  * Stating server
@@ -177,3 +46,50 @@ let server = app.listen(process.env.PORT || 3000, () => {
 		console.log('Service started at port: ' + port);
 	}
 });
+
+app.get('/', (req, res) => {
+	res.send('you have entered the right place');
+});
+
+app.get('/letter', (req, res) => {
+	res.send(generateLetter());
+});
+
+app.post('/postLetter', (req, res) => {
+	console.log(req.body);
+	res.send('blat');
+});
+
+const webSocket = require('ws');
+
+const wss = new webSocket.Server({port: 8888});
+
+setInterval(() => wss.clients.forEach(function each(client) {
+	if (client.readyState === WebSocket.OPEN) {
+		client.send('dedi');
+	}
+}), 3000);
+
+@Injectable()
+export class ServerInstance {
+	private db: DB;
+
+	constructor(db: DB) {
+		this.db = db;
+	}
+
+	init() {
+		app.post('/postData', (req, res) => {
+			this.db.getCollection('gavno').insertOne(req.body, (err, result) => {
+				res.send('succees!');
+			});
+		});
+
+		app.get('/printData', (req, res) => {
+			this.db.getCollection('gavno').find({}).toArray((err, items) => {
+				console.log(items);
+				res.send('succees!');
+			});
+		});
+	}
+}

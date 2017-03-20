@@ -5,8 +5,13 @@
         "noImplicitAny": false,
         "outDir": "dist",
         "rootDir": "src",
-        "sourceMap": true
+        "sourceMap": true,
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true
     },
+    "files": [
+        "src/main.ts"
+    ],
     "exclude": [
         "node_modules"
     ]

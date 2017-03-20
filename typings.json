@@ -18,5 +18,12 @@
     "node": "github:DefinitelyTyped/DefinitelyTyped/node/node.d.ts#0d66537e353802f996a3f67ca1b711f63835f9e7",
     "serve-static": "github:DefinitelyTyped/DefinitelyTyped/serve-static/serve-static.d.ts#0fa4e9e61385646ea6a4cba2aef357353d2ce77f",
     "source-map-support": "github:DefinitelyTyped/DefinitelyTyped/source-map-support/source-map-support.d.ts#f8af639bf29b2b00e5d27ce93c0f046564b8525c"
+  },
+  "dependencies": {
+    "mongodb": "registry:npm/mongodb#2.1.0+20170211100415"
+  },
+  "globalDependencies": {
+    "node": "registry:dt/node#7.0.0+20170310052549",
+    "zone.js": "registry:dt/zone.js#0.0.0+20160510002910"
   }
 }

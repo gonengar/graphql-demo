@@ -51,7 +51,7 @@ gulp.task('watch', ['tsc', 'tslint'], function (done) {
 gulp.task('server:start', ['tsc', 'tslint'], function (done) {
 	process.chdir('dist');
 	server.listen({
-		path: 'server.js',
+		path: 'main.js',
 		env: {
 			NODE_ENV: 'production'
 		}
