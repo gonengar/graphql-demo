@@ -20,6 +20,8 @@
     "source-map-support": "github:DefinitelyTyped/DefinitelyTyped/source-map-support/source-map-support.d.ts#f8af639bf29b2b00e5d27ce93c0f046564b8525c"
   },
   "dependencies": {
+    "body-parser": "registry:npm/body-parser#1.15.2+20161116154925",
+    "cors": "registry:npm/cors#2.7.0+20160902012746",
     "mongodb": "registry:npm/mongodb#2.1.0+20170211100415"
   },
   "globalDependencies": {
