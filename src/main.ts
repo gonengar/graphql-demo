@@ -2,8 +2,8 @@ import * as express from 'express';
 import * as bodyParser from 'body-parser';
 import {graphqlExpress, graphiqlExpress} from 'graphql-server-express';
 import { makeExecutableSchema } from 'graphql-tools';
-import {typeDefs} from './gql-files/schema_children';
-import {resolvers} from './gql-files/resolver_children';
+import {typeDefs} from './gql-files/schema';
+import {resolvers} from './gql-files/resolver';
 
 const schema = makeExecutableSchema({
     typeDefs,
