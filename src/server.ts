@@ -1,3 +1,5 @@
+/*
+/!*
 import * as express from 'express';
 import * as bodyParser from 'body-parser';
 import * as cors from 'cors';
@@ -28,3 +30,30 @@ export class ServerInstance {
 		});
 	}
 }
+*!/
+
+import express from 'express';
+import bodyParser from 'body-parser';
+import {graphqlExpress, graphiqlExpress} from 'graphql-server-express';
+import {makeExecutableSchema} from 'graphql-tools';
+import {schemaTypes} from './gql-files/schema';
+import {resolvers} from './gql-files/resolver';
+
+export const schema = makeExecutableSchema({
+	schema: schemaTypes,
+	resolvers,
+});
+
+
+const PORT = 3000;
+const app = express();
+
+app.use('/graphql', bodyParser.json(), graphqlExpress({schema}));
+
+app.use('/graphiql', graphiqlExpress({
+	endpointURL: '/graphql',
+}));
+
+app.listen(PORT);
+
+*/

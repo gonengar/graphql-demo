@@ -7,12 +7,16 @@
         "rootDir": "src",
         "sourceMap": true,
         "emitDecoratorMetadata": true,
-        "experimentalDecorators": true
+        "experimentalDecorators": true,
+        "lib": ["es2015", "dom"]
     },
     "files": [
         "src/main.ts"
     ],
     "exclude": [
         "node_modules"
+    ],
+    "include": [
+        "./typings_manual/**/*.d.ts"
     ]
 }
